@@ -1,0 +1,28 @@
+{
+  "name": "co-located_mobilear_js",
+  "version": "0.0.1",
+  "description": "foundation project for testing co-located AR websites on mobile, using three.js, ar.js, and socket-io. Hosted on glitch.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augustluhrs/Co-Located_MobileAR_JS.git"
+  },
+  "author": "august-luhrs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/augustluhrs/Co-Located_MobileAR_JS/issues"
+  },
+  "homepage": "https://github.com/augustluhrs/Co-Located_MobileAR_JS#readme",
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.1",
+    "three": "^0.154.0"
+  }
+}
