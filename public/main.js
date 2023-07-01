@@ -20,7 +20,10 @@ socket.on('connect', function(){
 // THREE STUFF
 //
 
-// based on 
+import * as arjs from 'arjs';
+import * as arthreex from 'ar-threex';
+import * as artoolkit5js from 'artoolkit5-js';
+
 
 import * as THREE from 'three';
 
