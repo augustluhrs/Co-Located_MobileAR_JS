@@ -25,14 +25,14 @@ let io = require('socket.io')(server);
 // DEFAULT CLIENTS
 //
 
-let inputs = io.of('/')
+let players = io.of('/')
 //listen for anyone connecting
-inputs.on('connection', function(socket){
-  console.log('new input client!: ' + socket.id);
+players.on('connection', function(socket){
+  console.log('new player client!: ' + socket.id);
   
   //listen for this client to disconnect
   socket.on('disconnect', function(){
-    console.log('this client disconnected: ' + socket.id);
+    console.log('this player client disconnected: ' + socket.id);
   });
   
 });
