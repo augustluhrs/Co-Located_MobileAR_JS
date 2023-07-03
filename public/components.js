@@ -65,7 +65,7 @@ AFRAME.registerComponent('display-distance', {
         if (marker.isFound){
           var distance = marker.object3D.position.distanceTo(camera.object3D.position);
           text.setAttribute("text", { value: "Distance: " + distance.toFixed(2) });
-          console.log(distance);
+          // console.log(distance);
           requestAnimationFrame(distanceLoop);
         }
       });
