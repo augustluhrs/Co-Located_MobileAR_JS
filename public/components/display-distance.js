@@ -1,40 +1,3 @@
-/**
- *  AFRAME JS functions and components here
- *  to not clutter the html file as much
- */
-
-//
-//  EVENTS
-//
-
-window.addEventListener('camera-init', (data) => {
-  console.log('camera-init', data);
-})
-
-window.addEventListener('camera-error', (error) => {
-  console.log('camera-error', error);
-})
-
-AFRAME.registerComponent('register-events', {
-  init: function () {
-    var marker = this.el;
-
-    marker.addEventListener('markerFound', function() {
-      var markerId = marker.id;
-      console.log('markerFound', markerId);
-      // TODO: Add your own code here to react to the marker being found.
-      marker.isFound = true;
-    });
-
-    marker.addEventListener('markerLost', function() {
-      var markerId = marker.id;
-      console.log('markerLost', markerId);
-      // want to stop the distance display if not detected
-      marker.isFound = false;
-    });
-  }
-});
-
 //
 // DISTANCE CALCULATION
 //
@@ -60,7 +23,7 @@ AFRAME.registerComponent('display-distance', {
     marker.appendChild(text);
 
     // Update the distance on each frame
-    marker.addEventListener("markerFound", function () {
+    marker.addEventListener("markerFound", ()=>{
       requestAnimationFrame(function distanceLoop() {
         if (marker.isFound){
           var distance = marker.object3D.position.distanceTo(camera.object3D.position);
