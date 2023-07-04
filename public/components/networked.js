@@ -27,10 +27,19 @@ socket.on("serverUpdate", (data)=>{
       entityEl.setAttribute('networked', {
         mapID: mapID
       });
-      entityEl.setAttribute('position', map[mapID].position);
-      entityEl.setAttribute('rotation', map[mapID].rotation);
+      entityEl.object3D.position.set(map[mapID].position.x, map[mapID].position.y, map[mapID].position.z);
+      entityEl.object3D.rotation.set(map[mapID].rotation.x, map[mapID].rotation.y, map[mapID].rotation.z);
       entityEl.setAttribute('material', 'color', map[mapID].color);
       sceneEl.appendChild(entityEl);
+
+      var boxEl = document.createElement('a-box');
+      // boxEl.setAttribute('networked', {
+      //   mapID: mapID
+      // });
+      boxEl.object3D.position.set(map[mapID].position.x, map[mapID].position.y, -map[mapID].position.z);
+      boxEl.object3D.rotation.set(map[mapID].rotation.x, map[mapID].rotation.y, map[mapID].rotation.z);
+      boxEl.setAttribute('material', 'color', 'red');
+      sceneEl.appendChild(boxEl);
     }
   }
 });
