@@ -21,7 +21,7 @@ AFRAME.registerComponent('marker-events', {
       //one-time instantiation of box to show client position offset
       // console.log(!document.querySelector("[camera]").hasOwnProperty("avatar"));
       if (!document.querySelector("[camera]").hasOwnProperty("avatar")){
-        makeClientAvatar();
+        makeClientAvatar(marker);
       }
     });
 
@@ -35,7 +35,7 @@ AFRAME.registerComponent('marker-events', {
 });
 
 
-function makeClientAvatar(){
+function makeClientAvatar(marker){
   // Get the camera element
   let camera = document.querySelector("[camera]");
 
@@ -44,8 +44,10 @@ function makeClientAvatar(){
 
   //instantiate a sphere entity by telling the server your transform (w/ position offset)
   //need getWorldPosition? why not?
-  let camPos = camera.object3D.position;
+  // let camPos = camera.object3D.position;
   let camRot = camera.object3D.rotation;
+  //testing keeping the camera as origin, need to adjust this later to be real, just test for now
+  let camPos = marker.object3D.position.multiplyScalar(-1);
   let avatarID = "avatar-" + socket.id;
   let avatar = {
     position: {
