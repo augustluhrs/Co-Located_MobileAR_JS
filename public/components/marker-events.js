@@ -44,16 +44,14 @@ function makeClientAvatar(marker){
 
   //instantiate a sphere entity by telling the server your transform (w/ position offset)
   //need getWorldPosition? why not?
-  // let camPos = camera.object3D.position;
+  let camPos = camera.object3D.position;
   let camRot = camera.object3D.rotation;
-  //testing keeping the camera as origin, need to adjust this later to be real, just test for now
-  let camPos = marker.object3D.position.multiplyScalar(-1);
   let avatarID = "avatar-" + socket.id;
   let avatar = {
     position: {
       x: camPos.x - 0.5,
       y: camPos.y,
-      z: camPos.z + 5, //adjust later
+      z: camPos.z - 8, //adjust later
     },
     rotation: { //a-frame doesn't use quaternions by default
       x: camRot.x,
