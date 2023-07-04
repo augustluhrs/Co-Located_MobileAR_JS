@@ -19,6 +19,7 @@ AFRAME.registerComponent('marker-events', {
       console.log('markerFound', markerId);
       marker.isFound = true;
       //one-time instantiation of box to show client position offset
+      // console.log(!document.querySelector("[camera]").hasOwnProperty("avatar"));
       if (!document.querySelector("[camera]").hasOwnProperty("avatar")){
         makeClientAvatar();
       }
@@ -48,11 +49,11 @@ function makeClientAvatar(){
   let avatarID = "avatar-" + socket.id;
   let avatar = {
     position: {
-      x: camPos.x,
+      x: camPos.x - 0.5,
       y: camPos.y,
-      z: camPos.z
+      z: camPos.z + 5, //adjust later
     },
-    rotation: { //a-frame doeesn't use quaternions by default
+    rotation: { //a-frame doesn't use quaternions by default
       x: camRot.x,
       y: camRot.y,
       z: camRot.z,

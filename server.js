@@ -56,7 +56,7 @@ let map = {
 setInterval(()=>{
   //for now just updating networked objects
   updateNetwork();
-});
+}, 100);
 
 function updateNetwork(){
   io.emit("serverUpdate", map);
