@@ -19,7 +19,6 @@ AFRAME.registerComponent('marker-events', {
       console.log('markerFound', markerId);
       marker.isFound = true;
       //one-time instantiation of box to show client position offset
-      // console.log(!document.querySelector("[camera]").hasOwnProperty("avatar"));
       if (!document.querySelector("[camera]").hasOwnProperty("avatar")){
         makeClientAvatar(marker);
       }
