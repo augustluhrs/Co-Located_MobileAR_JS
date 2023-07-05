@@ -5,6 +5,7 @@ AFRAME.registerComponent('show-camera', {
     textPos.setAttribute("id", "textPos");
     textPos.setAttribute("position", "0 -0.05 0.01");
     textPos.setAttribute("rotation", "0 0 0");
+    textPos.setAttribute("scale", "0.5 0.5 0.5");
     textPos.setAttribute("text", {
       value: "Position: ",
       align: "center",
@@ -17,6 +18,7 @@ AFRAME.registerComponent('show-camera', {
     textRot.setAttribute("id", "textRot");
     textRot.setAttribute("position", "0 0.05 0.01");
     textRot.setAttribute("rotation", "0 0 0");
+    textRot.setAttribute("scale", "0.5 0.5 0.5");
     textRot.setAttribute("text", {
       value: "Rotation: ",
       align: "center",
