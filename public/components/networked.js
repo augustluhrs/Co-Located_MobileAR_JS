@@ -29,13 +29,13 @@ socket.on("serverUpdate", (data)=>{
       });
       entityEl.setAttribute("id", mapID);
 
-      //need to create relative position from networked transform by rotating offset vector
+      //need to create relative position from networked transform by rotating offset vector? have to offset from marker for sure
       let networkPos = new THREE.Vector3().fromArray(map[mapID].posArray);
-      let networkQuat = new THREE.Quaternion().fromArray(map[mapID].quatArray);
-      networkPos.applyQuaternion(networkQuat);
+      networkPos.addVectors(networkPos, document.querySelector("#marker-1").object3D.position);
+      // let networkQuat = new THREE.Quaternion().fromArray(map[mapID].quatArray);
+      // networkPos.applyQuaternion(networkQuat);
+      console.log(JSON.stringify(networkPos));
       entityEl.object3D.position.set(networkPos.x, networkPos.y, networkPos.z);
-      // entityEl.object3D.position.set(map[mapID].position.x, map[mapID].position.y, map[mapID].position.z);
-      // entityEl.object3D.rotation.set(map[mapID].rotation.x, map[mapID].rotation.y, map[mapID].rotation.z);
       entityEl.setAttribute('material', 'color', map[mapID].color);
       sceneEl.appendChild(entityEl);
     }
