@@ -5,6 +5,7 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
     <body style="margin : 0px; overflow: hidden;">
+        <script src="components/utils.js"></script>
         <script src="components/networked.js"></script>
         <script src="components/marker-events.js"></script>
         <script src="components/display-distance.js"></script>
@@ -50,7 +51,7 @@
 				</a-torus-knot>
 			</a-box>
 		</a-marker>
-        <a-entity camera show-camera>
+        <a-entity camera >
             <a-entity id="HUD" geometry="primitive: plane; height: 0.2; width: 0.8" position="0 -0.2 -1" material="color: gray; opacity: 0.5">
             </a-entity>
         </a-entity>

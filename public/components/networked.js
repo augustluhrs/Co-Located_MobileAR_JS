@@ -23,12 +23,19 @@ socket.on("serverUpdate", (data)=>{
       map[mapID] = data[mapID];
       
       var sceneEl = document.querySelector('a-scene');
-      var entityEl = document.createElement('a-box');
+      var entityEl = document.createElement('a-sphere');
       entityEl.setAttribute('networked', {
         mapID: mapID
       });
-      entityEl.object3D.position.set(map[mapID].position.x, map[mapID].position.y, map[mapID].position.z);
-      entityEl.object3D.rotation.set(map[mapID].rotation.x, map[mapID].rotation.y, map[mapID].rotation.z);
+      entityEl.setAttribute("id", mapID);
+
+      //need to create relative position from networked transform by rotating offset vector
+      let networkPos = new THREE.Vector3().fromArray(map[mapID].posArray);
+      let networkQuat = new THREE.Quaternion().fromArray(map[mapID].quatArray);
+      networkPos.applyQuaternion(networkQuat);
+      entityEl.object3D.position.set(networkPos.x, networkPos.y, networkPos.z);
+      // entityEl.object3D.position.set(map[mapID].position.x, map[mapID].position.y, map[mapID].position.z);
+      // entityEl.object3D.rotation.set(map[mapID].rotation.x, map[mapID].rotation.y, map[mapID].rotation.z);
       entityEl.setAttribute('material', 'color', map[mapID].color);
       sceneEl.appendChild(entityEl);
     }

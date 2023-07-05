@@ -26,8 +26,12 @@ let io = require('socket.io')(server);
 //
 
 // object that contains all instantiated client objects
-// the unit scale 1 = width of marker, multiplied by each client's relative scale
+// the unit scale 1 = width of marker, multiplied by each client's relative scale?
 // might not need to record ownership via clientid suffix in first version
+// networked transform of client = 
+//      position = marker.pos * -1 (vector to phone)
+//      rotation = marker.rot (so other clients know how to rotate the pos vector)
+// not actually getting local rotation yet
 let map = {
   /*
   { "example-box-clientid":
