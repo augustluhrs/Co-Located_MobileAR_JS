@@ -42,6 +42,7 @@ socket.on("serverUpdate", (data)=>{
       // sceneEl.appendChild(entityEl);
       //if appending to the marker, won't have to offset and won't always be behind camera... realistically, need to parent to something else and have the marker update that entity's position
       //fuck, but then i'll have to convert world to local space...
+      
       let worldToLocal = new THREE.Matrix4().getInverse(map.object3D.matrixWorld);
       entityEl.object3D.applyMatrix(worldToLocal);
       console.log(entityEl.object3D.position);
