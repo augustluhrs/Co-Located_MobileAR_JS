@@ -10,7 +10,7 @@ socket.on("serverUpdate", (data)=>{
   //update the map object, networked components handle their own update via eventListener?
   // map = data; //issue if async while components are updating?
   //ah, can't do above because then "isInstantiated is never saved"
-
+  let marker = document.querySelector("#marker-1");
   //need to instantiate new entities b/c they don't have the networked component yet
   for (let mapID in data){
     if (map.hasOwnProperty(mapID)){
@@ -31,13 +31,19 @@ socket.on("serverUpdate", (data)=>{
 
       //need to create relative position from networked transform by rotating offset vector? have to offset from marker for sure
       let networkPos = new THREE.Vector3().fromArray(map[mapID].posArray);
-      networkPos.addVectors(networkPos, document.querySelector("#marker-1").object3D.position);
+      // networkPos.addVectors(networkPos, document.querySelector("#marker-1").object3D.position);
       // let networkQuat = new THREE.Quaternion().fromArray(map[mapID].quatArray);
       // networkPos.applyQuaternion(networkQuat);
       console.log(JSON.stringify(networkPos));
       entityEl.object3D.position.set(networkPos.x, networkPos.y, networkPos.z);
       entityEl.setAttribute('material', 'color', map[mapID].color);
-      sceneEl.appendChild(entityEl);
+      // sceneEl.appendChild(entityEl);
+      //if appending to the marker, won't have to offset and won't always be behind camera... realistically, need to parent to something else and have the marker update that entity's position
+      //fuck, but then i'll have to convert world to local space...
+      let worldToLocal = new THREE.Matrix4().getInverse(marker.object3D.matrixWorld);
+      entityEl.object3D.applyMatrix(worldToLocal);
+      console.log(entityEl.object3D.position);
+      marker.appendChild(entityEl);
     }
   }
 });
