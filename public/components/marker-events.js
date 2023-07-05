@@ -22,6 +22,12 @@ AFRAME.registerComponent('marker-events', {
       if (!document.querySelector("[camera]").hasOwnProperty("avatar")){
         makeClientAvatar(marker);
       }
+
+      //update the map's transform
+      let map = document.querySelector("#map");
+      map.object3D.position = marker.object3D.position;
+      map.object3D.rotation = marker.object3D.rotation;
+      
     });
 
     marker.addEventListener('markerLost', ()=>{
