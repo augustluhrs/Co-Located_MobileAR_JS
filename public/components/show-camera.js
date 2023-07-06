@@ -1,5 +1,7 @@
 AFRAME.registerComponent('show-camera', {
   init: function() {
+    let hud = document.querySelector("#HUD");
+    
     // Create a text element to attach to HUD
     var textPos = document.createElement("a-entity");
     textPos.setAttribute("id", "textPos");
@@ -12,7 +14,7 @@ AFRAME.registerComponent('show-camera', {
       color: "black",
       shader: "msdf",
     });
-    document.querySelector("#HUD").appendChild(textPos);
+    hud.appendChild(textPos);
     
     var textRot = document.createElement("a-entity");
     textRot.setAttribute("id", "textRot");
@@ -25,18 +27,25 @@ AFRAME.registerComponent('show-camera', {
       color: "black",
       shader: "msdf",
     });
-    document.querySelector("#HUD").appendChild(textRot);
+    hud.appendChild(textRot);
+    // hud.count = 0;
+    
+    this.pos = new THREE.Vector3();
+    this.rot = new THREE.Quaternion();
   },
 
   tick: function () {
-    var pos = new THREE.Vector3();
-    var rot = new THREE.Quaternion();
-    let hud = document.querySelector("#HUD");
+    // var pos = new THREE.Vector3();
+    // var rot = new THREE.Quaternion();
+    // let hud = document.querySelector("#HUD");
     // return function () {
-    this.el.object3D.getWorldPosition(pos);
-    this.el.object3D.getWorldQuaternion(rot);
-    document.querySelector("#textPos").setAttribute("text", { value: "Position: x:" + pos.x.toFixed(2) + " y: " + pos.y.toFixed(2) + " z: " + pos.z.toFixed(2)});
-    document.querySelector("#textRot").setAttribute("text", { value: "Rotation: x:" + rot.x.toFixed(2) + " y: " + rot.y.toFixed(2) + " z: " + rot.z.toFixed(2)});
+    this.el.object3D.getWorldPosition(this.pos);
+    this.el.object3D.getWorldQuaternion(this.rot);
+    document.querySelector("#textPos").setAttribute("text", { value: "Position: x:" + this.pos.x.toFixed(2) + " y: " + this.pos.y.toFixed(2) + " z: " + this.pos.z.toFixed(2)});
+    document.querySelector("#textRot").setAttribute("text", { value: "Rotation: x:" + this.rot.x.toFixed(2) + " y: " + this.rot.y.toFixed(2) + " z: " + this.rot.z.toFixed(2)});
+    // hud.count++
+    // document.querySelector("#textPos").setAttribute("text", { value: count});
+    
     // };
     
   }
