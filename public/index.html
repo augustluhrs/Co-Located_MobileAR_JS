@@ -13,7 +13,11 @@
         <script src="components/show-camera.js"></script>
 
 
-        <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;" renderer="precision: medium;">
+        <a-scene 
+        embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 4x4_BCH_13_5_5;" 
+        device-orientation-permission-ui="enabled: true"
+        vr-mode-ui="enabled: false"
+        renderer="precision: medium;">
 
         <!-- the map container of all networked objects -->
         <a-entity id="map" position="0 0 0"></a-entity>
