@@ -15,7 +15,7 @@ AFRAME.registerComponent('show-camera', {
       shader: "msdf",
     });
     hud.appendChild(textPos);
-    
+     
     var textRot = document.createElement("a-entity");
     textRot.setAttribute("id", "textRot");
     textRot.setAttribute("position", "0 0.05 0.01");
@@ -35,18 +35,13 @@ AFRAME.registerComponent('show-camera', {
   },
 
   tick: function () {
-    // var pos = new THREE.Vector3();
-    // var rot = new THREE.Quaternion();
-    // let hud = document.querySelector("#HUD");
-    // return function () {
-    this.el.object3D.getWorldPosition(this.pos);
-    this.el.object3D.getWorldQuaternion(this.rot);
+    // this.el.object3D.getWorldPosition(this.pos);
+    // this.el.object3D.getWorldQuaternion(this.rot);
+
+    this.pos = mapPos;
+    this.rot = mapRot;
+    
     document.querySelector("#textPos").setAttribute("text", { value: "Position: x:" + this.pos.x.toFixed(2) + " y: " + this.pos.y.toFixed(2) + " z: " + this.pos.z.toFixed(2)});
     document.querySelector("#textRot").setAttribute("text", { value: "Rotation: x:" + this.rot.x.toFixed(2) + " y: " + this.rot.y.toFixed(2) + " z: " + this.rot.z.toFixed(2)});
-    // hud.count++
-    // document.querySelector("#textPos").setAttribute("text", { value: count});
-    
-    // };
-    
   }
 });
