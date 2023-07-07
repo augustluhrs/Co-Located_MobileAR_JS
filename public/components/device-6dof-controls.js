@@ -19,7 +19,11 @@ AFRAME.registerComponent('device-6dof-controls', {
     window.addEventListener('deviceorientation', this.handleDeviceOrientation, true);
     window.addEventListener('devicemotion', this.handleDeviceMotion, true);
 
-    this.map = document.querySelector("#map");
+
+    this.map = document.querySelector("#map"); //position changes
+    this.mapAnchor = document.querySelector("#mapAnchor"); //rotation changes
+    
+    // this.map = document.querySelector("#mapCenter");
     this.acc = new THREE.Vector3(); //using this to add to mapPos so don't have to create new vector each event
   },
 
@@ -32,7 +36,9 @@ AFRAME.registerComponent('device-6dof-controls', {
     if (event.beta !== null){
       mapRot.set(-event.beta, -event.gamma, -event.alpha); //this is just for show-camera
     
-      this.map.object3D.rotation.set(
+
+      //really annoying gimbal lock, should think about fixing that...
+      this.mapAnchor.object3D.rotation.set(
         THREE.MathUtils.degToRad(-event.beta),
         THREE.MathUtils.degToRad(-event.gamma),
         THREE.MathUtils.degToRad(-event.alpha),
@@ -53,8 +59,25 @@ AFRAME.registerComponent('device-6dof-controls', {
     //so if i'm getting a number in meters per second squared... do i need to take .interval to find the actual meter distance?
     //lets just log for now and see what we get
     if (event.acceleration.x !== null){
-      this.acc.set(-event.acceleration.x, -event.acceleration.y, -event.acceleration.z);
+      let intervalSeconds = event.interval / 1000; //b/c we get it in millis
+      
+      let posChange = {
+        x: event.acceleration.x * intervalSeconds * intervalSeconds,
+        y: event.acceleration.y * intervalSeconds * intervalSeconds,
+        z: event.acceleration.z * intervalSeconds * intervalSeconds,
+      }
+      
+      // this.acc.set(-event.acceleration.x, -event.acceleration.y, -event.acceleration.z);
+      // this.acc.set(event.acceleration.x, event.acceleration.y, event.acceleration.z);
+      this.acc.set(posChange.x, posChange.y, posChange.z);
+      
+      
       mapPos.add(this.acc); //this is just for show-camera
+      
+      //reducing size for testing
+      // this.acc.multiplyScalar(0.9);
+      
+      //annoying, have to adjust to world now that it's a child
       
       this.map.object3D.position.add(this.acc);
     }
