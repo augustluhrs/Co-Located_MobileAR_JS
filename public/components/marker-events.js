@@ -37,7 +37,14 @@ AFRAME.registerComponent('marker-events', {
       console.log('markerLost', markerId);
       // want to stop the distance display if not detected
       marker.isFound = false;
+
+      
     });
+  },
+
+  tick: function(){
+    // this.el.setAttribute("visible", true);
+    this.el.object3D.visible = true;
   }
 });
 
