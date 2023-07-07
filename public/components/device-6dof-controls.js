@@ -72,14 +72,14 @@ AFRAME.registerComponent('device-6dof-controls', {
       this.acc.set(posChange.x, posChange.y, posChange.z);
       
       
-      mapPos.add(this.acc); //this is just for show-camera
+      // mapPos.add(this.acc); //this is just for show-camera
       
       //reducing size for testing
       // this.acc.multiplyScalar(0.9);
       
       //annoying, have to adjust to world now that it's a child
       
-      this.map.object3D.position.add(this.acc);
+      // this.map.object3D.position.add(this.acc);
     }
     // console.log("position");
     // console.log(event);

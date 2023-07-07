@@ -24,11 +24,11 @@ AFRAME.registerComponent('marker-events', {
       }
 
       //update the map's transform
-      let map = document.querySelector("#map");
-      let pos = marker.object3D.position;
-      let rot = marker.object3D.rotation;
-      map.object3D.position.set(pos.x, pos.y, pos.z);
-      map.object3D.rotation.set(THREE.MathUtils.degToRad(rot.x),THREE.MathUtils.degToRad(rot.y),THREE.MathUtils.degToRad(rot.z)); //this is so silly
+      // let map = document.querySelector("#map");
+      // let pos = marker.object3D.position;
+      // let rot = marker.object3D.rotation;
+      // map.object3D.position.set(pos.x, pos.y, pos.z);
+      // map.object3D.rotation.set(THREE.MathUtils.degToRad(rot.x),THREE.MathUtils.degToRad(rot.y),THREE.MathUtils.degToRad(rot.z)); //this is so silly
       
     });
 
