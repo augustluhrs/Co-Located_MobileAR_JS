@@ -13,15 +13,33 @@ AFRAME.registerComponent('device-6dof-controls', {
     //are these bindings needed? not using them in the other components... b/c window event?
     this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
     this.handleDeviceMotion = this.handleDeviceMotion.bind(this);
+    // window.addEventListener('deviceorientation', this.handleDeviceOrientation);
+    // window.addEventListener('devicemotion', this.handleDeviceMotion);
+    //idk why i need true either
     window.addEventListener('deviceorientation', this.handleDeviceOrientation, true);
     window.addEventListener('devicemotion', this.handleDeviceMotion, true);
+
+    this.map = document.querySelector("#map");
+    this.acc = new THREE.Vector3(); //using this to add to mapPos so don't have to create new vector each event
   },
 
   handleDeviceOrientation: function (event) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Window/deviceorientation_event
 
     //reads current orientation, not change, so just replacing rotation
-    mapRot.set(event.beta, event.gamma, event.alpha);
+    //need to check for null b/c doesn't work on desktop (no device motion)
+    //doing negative everything because it's moving the opposite of the phone
+    if (event.beta !== null){
+      mapRot.set(-event.beta, -event.gamma, -event.alpha); //this is just for show-camera
+    
+      this.map.object3D.rotation.set(
+        THREE.MathUtils.degToRad(-event.beta),
+        THREE.MathUtils.degToRad(-event.gamma),
+        THREE.MathUtils.degToRad(-event.alpha),
+      )
+    }
+    // console.log("rotation");
+    // console.log(event);
   },
 
   handleDeviceMotion: function (event) {
@@ -34,7 +52,13 @@ AFRAME.registerComponent('device-6dof-controls', {
     
     //so if i'm getting a number in meters per second squared... do i need to take .interval to find the actual meter distance?
     //lets just log for now and see what we get
-    mapPos.set(event.acceleration.x, event.acceleration.y, event.acceleration.z);
-
+    if (event.acceleration.x !== null){
+      this.acc.set(-event.acceleration.x, -event.acceleration.y, -event.acceleration.z);
+      mapPos.add(this.acc); //this is just for show-camera
+      
+      this.map.object3D.position.add(this.acc);
+    }
+    // console.log("position");
+    // console.log(event);
   }
 });

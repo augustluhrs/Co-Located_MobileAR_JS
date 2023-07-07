@@ -23,7 +23,9 @@
         renderer="precision: medium;">
 
         <!-- the map container of all networked objects -->
-        <a-entity id="map" position="0 0 0"></a-entity>
+        <a-entity id="map" position="0 0 0">
+            <a-icosahedron color="#f3a9b0" radius="3"></a-icosahedron>
+        </a-entity>
        <!-- 5 matrix markers for map -->
 		<a-marker type='barcode' value='1' size='0.12' id="marker-1" marker-events show-debug>
 			<a-box position='0 0.5 0' scale='0.5 0.5 0.5' material='opacity: 0.5; side: double;color:pink;'>
@@ -61,7 +63,7 @@
 			</a-box>
 		</a-marker>
         <!-- <a-entity camera show-camera arjs-device-orientation-controls> -->
-        <a-entity camera show-camera>    
+        <a-entity camera device-6dof-controls show-camera>    
             <a-entity id="HUD" geometry="primitive: plane; height: 0.2; width: 0.8" position="0 -0.2 -1" material="color: gray; opacity: 0.5">
             </a-entity>
         </a-entity>
