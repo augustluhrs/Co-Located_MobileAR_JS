@@ -14,6 +14,11 @@ AFRAME.registerComponent('marker-events', {
   init: function () {
     var marker = this.el;
 
+    this.markerWorldPos = new THREE.Vector3();
+    this.mapWorldQuat = new THREE.Quaternion();
+    this.mapLocalQuat = new THREE.Quaternion();
+    this.mapDesiredQuat = new THREE.Quaternion();
+
     marker.addEventListener('markerFound', ()=>{
       var markerId = marker.id;
       console.log('markerFound', markerId);
@@ -27,9 +32,24 @@ AFRAME.registerComponent('marker-events', {
       let map = document.querySelector("#map");
       let pos = marker.object3D.position;
       let rot = marker.object3D.rotation;
-      map.object3D.position.set(pos.x, pos.y, pos.z);
-      map.object3D.rotation.set(THREE.MathUtils.degToRad(rot.x),THREE.MathUtils.degToRad(rot.y),THREE.MathUtils.degToRad(rot.z)); //this is so silly
+      // map.object3D.position.set(pos.x, pos.y, pos.z);
+      map.object3D.position.copy(pos);
+      // map.object3D.rotation.set(THREE.MathUtils.degToRad(rot.x),THREE.MathUtils.degToRad(rot.y),THREE.MathUtils.degToRad(rot.z)); //this is so silly
       
+      //now have to convert from world to local for position translation
+      /*
+      marker.object3D.getWorldPosition(this.markerWorldPos); //should be same as local, but w/e
+      map.object3D.worldToLocal(this.markerWorldPos);
+      map.object3D.position.copy(this.markerWorldPos);
+      */
+
+      //for rotation, get worldQuat, multiply by local rot to get desired? then set to desired?
+      // map.object3D.getWorldQuaternion(this.mapWorldQuat);
+      this.mapLocalQuat.copy(map.object3D.quaternion);
+      marker.object3D.getWorldQuaternion(this.mapDesiredQuat);
+      this.mapDesiredQuat.multiply(this.mapLocalQuat);
+      this.mapDesiredQuat.normalize();
+      map.object3D.setRotationFromQuaternion(this.mapDesiredQuat);
     });
 
     marker.addEventListener('markerLost', ()=>{
@@ -37,7 +57,13 @@ AFRAME.registerComponent('marker-events', {
       console.log('markerLost', markerId);
       // want to stop the distance display if not detected
       marker.isFound = false;
+
+      
     });
+  },
+
+  tick: function(){
+    // this.el.object3D.visible = true;
   }
 });
 

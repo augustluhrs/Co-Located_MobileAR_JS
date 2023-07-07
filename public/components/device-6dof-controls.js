@@ -21,6 +21,9 @@ AFRAME.registerComponent('device-6dof-controls', {
 
 
     this.map = document.querySelector("#map"); //position changes
+    this.mapWorldPos = new THREE.Vector3();
+    // this.mapLocalTarget = new THREE.Vector3();
+    // this.mapWorldPosTarget = new THREE.Vector3(); //idk, it's 3am
     this.mapAnchor = document.querySelector("#mapAnchor"); //rotation changes
     
     // this.map = document.querySelector("#mapCenter");
@@ -36,16 +39,14 @@ AFRAME.registerComponent('device-6dof-controls', {
     if (event.beta !== null){
       mapRot.set(-event.beta, -event.gamma, -event.alpha); //this is just for show-camera
     
-
       //really annoying gimbal lock, should think about fixing that...
+      //rotating the mapAnchor that's at camera origin now
       this.mapAnchor.object3D.rotation.set(
         THREE.MathUtils.degToRad(-event.beta),
         THREE.MathUtils.degToRad(-event.gamma),
         THREE.MathUtils.degToRad(-event.alpha),
       )
     }
-    // console.log("rotation");
-    // console.log(event);
   },
 
   handleDeviceMotion: function (event) {
@@ -66,22 +67,29 @@ AFRAME.registerComponent('device-6dof-controls', {
         y: event.acceleration.y * intervalSeconds * intervalSeconds,
         z: event.acceleration.z * intervalSeconds * intervalSeconds,
       }
-      
-      // this.acc.set(-event.acceleration.x, -event.acceleration.y, -event.acceleration.z);
-      // this.acc.set(event.acceleration.x, event.acceleration.y, event.acceleration.z);
-      this.acc.set(posChange.x, posChange.y, posChange.z);
+      console.log(this.acc);
+      this.acc.set(event.acceleration.x.toFixed(1), event.acceleration.y.toFixed(1), event.acceleration.z.toFixed(1));
+      // this.acc.negate(); //inverts
+      console.log(this.acc);
+      // this.acc.set(posChange.x, posChange.y, posChange.z);
       
       
       mapPos.add(this.acc); //this is just for show-camera
       
       //reducing size for testing
       // this.acc.multiplyScalar(0.9);
+      this.map.object3D.position.add(this.acc);
+      
       
       //annoying, have to adjust to world now that it's a child
-      
-      this.map.object3D.position.add(this.acc);
+      //will it work if i take the worldPosition offset and add it to local position???
+      //no simpler, just need to find target offset in world and then use .worldToLocal()
+      this.map.object3D.getWorldPosition(this.mapWorldPos) //get the map's world pos
+      // this.mapWorldPosTarget.copy(this.acc);
+      this.mapWorldPos.add(this.acc); //add the event acceleration to map's world pos
+      this.map.object3D.worldToLocal(this.mapWorldPos); //convert the world pos vector to map's local system
+      this.map.object3D.position.copy(this.mapWorldPos); //move the map there
+      // this.map.object3D.getWorldPosition(mapPos); //update show-camera
     }
-    // console.log("position");
-    // console.log(event);
   }
 });
