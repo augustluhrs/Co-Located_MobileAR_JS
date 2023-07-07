@@ -19,10 +19,11 @@ AFRAME.registerComponent('device-6dof-controls', {
     window.addEventListener('deviceorientation', this.handleDeviceOrientation, true);
     window.addEventListener('devicemotion', this.handleDeviceMotion, true);
 
+
     this.map = document.querySelector("#map"); //position changes
     this.mapAnchor = document.querySelector("#mapAnchor"); //rotation changes
-    // this.map = document.querySelector("#mapCenter");
     
+    // this.map = document.querySelector("#mapCenter");
     this.acc = new THREE.Vector3(); //using this to add to mapPos so don't have to create new vector each event
   },
 
@@ -35,6 +36,7 @@ AFRAME.registerComponent('device-6dof-controls', {
     if (event.beta !== null){
       mapRot.set(-event.beta, -event.gamma, -event.alpha); //this is just for show-camera
     
+
       //really annoying gimbal lock, should think about fixing that...
       this.mapAnchor.object3D.rotation.set(
         THREE.MathUtils.degToRad(-event.beta),
@@ -76,6 +78,7 @@ AFRAME.registerComponent('device-6dof-controls', {
       // this.acc.multiplyScalar(0.9);
       
       //annoying, have to adjust to world now that it's a child
+      
       this.map.object3D.position.add(this.acc);
     }
     // console.log("position");
